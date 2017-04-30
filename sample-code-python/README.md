@@ -1,5 +1,5 @@
-##Skill Python Sample
-###基础环境
+## Skill Python Sample
+### 基础环境
 **操作系统：**CentOS 6.5+
 **Python version：**2.7+
 **依赖：**
@@ -7,13 +7,13 @@
 yum install -y python-devel openssl openssl-devel python-pip git libffi-devel
 pip install flask requests pyOpenSSL
 ```
-###部署服务
-#####获取sample code
+### 部署服务
+##### 获取sample code
 ```bash
 git clone https://github.com/Rokid/rokid-openvoice.git
 cd rokid-openvoice/sample-code-python/
 ```
-#####获取SSL证书
+##### 获取SSL证书
 详见：[通过Let’s Encrypt获取免费的SSL证书](https://developer-forum.rokid.com/t/lets-encrypt-ssl/175)
 ```bash
 git clone https://github.com/Rokid/rokid-skill-tools.git
@@ -24,13 +24,13 @@ SKILL_DOMAIN=填写测试域名
 mv $SKILL_DOMAIN.crt ../test_domain.crt
 mv $SKILL_DOMAIN.key ../test_domain.key
 ```
-#####启动服务
+##### 启动服务
 ```bash
 cd .. && python sample-server.py
 ```
-###创建技能
+### 创建技能
 详见：[Rokid Skills Start ](https://github.com/Rokid/docs/blob/master/1-GetStarted/Rokid%20Skills%20Kit.md)
-#####意图定义：
+##### 意图定义：
 ```javascript
 {
 	"intents": [
@@ -41,12 +41,12 @@ cd .. && python sample-server.py
 	]
 }
 ```
-#####用户语句：
+##### 用户语句：
 ```
 query_hot_words 今天热词是什么
 ```
 ```bash
 cd .. && python sample-server.py
 ```
-###测试技能
+### 测试技能
 ![Alt text](./skill-test.png)
