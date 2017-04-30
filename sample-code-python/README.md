@@ -1,7 +1,7 @@
 ## Skill Python Sample
 ### 基础环境
-**操作系统：** CentOS 6.5+
-**Python version：** 2.7+
+**操作系统：** CentOS 6.5+ <br>
+**Python version：** 2.6+ <br>
 **依赖：**
 ```bash
 yum install -y python-devel openssl openssl-devel python-pip git libffi-devel
