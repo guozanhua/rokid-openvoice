@@ -45,8 +45,5 @@ cd .. && python sample-server.py
 ```
 query_hot_words 今天热词是什么
 ```
-```bash
-cd .. && python sample-server.py
-```
 ### 测试技能
 ![Alt text](./skill-test.png)
