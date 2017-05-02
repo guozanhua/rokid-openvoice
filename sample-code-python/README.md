@@ -30,7 +30,7 @@ cd .. && python sample-server.py
 ```
 ### 创建技能
 详见：[Rokid Skills Start ](https://github.com/Rokid/docs/blob/master/1-GetStarted/Rokid%20Skills%20Kit.md)
-#####后端服务：
+##### 后端服务：
 ```
 https://填写测试域名/
 ```
