@@ -273,6 +273,9 @@ PCM格式为 RIFF (little-endian) data, WAVE audio, Microsoft PCM, 16 bit, mono 
 | stack   | string | 设备当前的应用栈信息。              | 空     |
 | device  | string | 设备上的状态信息，为json结构。         | 空     |
 
+stack结构："applicationId1:applicationId2:application3"按照应用被调用的早晚逆序排列，当前应用在第一个。
+
+
 ### SpeechResponse
 
 | 参数     | 类型     | 描述             |
