@@ -284,3 +284,14 @@ stack结构："applicationId1:applicationId2:application3"按照应用被调用�
 | nlp    | string | nlp识别的结果       |
 | action | string | cloud app处理的结果 |
 
+asr：标准字符串，返回实时识别结果。
+nlp：json字符串，结构如下
+```
+"content": {
+    "applicationId": "com.rokid.cloud.music",
+    "intent": "play_random",
+    "slots": {}
+}
+```
+action：json字符串，结构详见 [action定义](https://github.com/Rokid/docs/blob/master/2-RokidDocument/1-SkillsKit/Cloud%20App%20Development%20Protocol_cn.md#32-action%E5%AE%9A%E4%B9%89)
+
