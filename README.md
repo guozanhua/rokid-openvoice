@@ -6,9 +6,9 @@
 Rokid openvoice开放服务包含以下四部分功能，
 
 - 设备认证
-- 语音转文字（ASR）
-- 语义理解（NLU）
+- 语音识别（ASR）
 - 自然语言合成（TTS）
+- 语音交互（SPCH）
 
 ## 文档简介
 
@@ -23,7 +23,7 @@ Rokid openvoice开放服务包含以下四部分功能，
 | key            | string | 开放接口Key,在管理平台获取        | 无，必填 |
 | device_type_id | string | 设备类型ID                 | 无，必填 |
 | device_id      | string | 设备ID                   | 无，必填 |
-| service        | string | asr,nlp,tts            | 无，必填 |
+| service        | string | asr,tts,spch            | 无，必填 |
 | version        | string | 接口版本号                  | 无，必填 |
 | time           | string | unix时间戳                | 无，必填 |
 | sign           | string | 由以上几项+secret按约定的加密方式生成 | 无，必填 |
@@ -52,8 +52,6 @@ service Speech {
   rpc auth(AuthRequest) returns (AuthResponse) { }
 
   rpc asr(stream AsrRequest) returns (stream AsrResponse) { }
-
-  rpc nlp(NlpRequest) returns (NlpResponse) { }
 
   rpc tts(TtsRequest) returns (stream TtsResponse) { }
 
@@ -97,21 +95,6 @@ message AsrResponse {
   string asr              = 1;
 }
 
-message NlpRequest {
-  NlpHeader header        = 1;
-  string asr              = 2;
-}
-
-message NlpHeader {
-  int32 id              = 1;
-  string lang           = 2;
-  string cdomain        = 3;
-}
-
-message NlpResponse {
-  string nlp              = 1;
-}
-
 message TtsRequest {
   TtsHeader header        = 1;
   string text             = 2;
@@ -136,14 +119,6 @@ message VoiceSpeechRequest {
   }
 }
 
-message SpeechResponse {
-  string asr              = 1;
-
-  string nlp              = 2;
-
-  string action           = 3;
-}
-
 message TextSpeechRequest {
   SpeechHeader header = 1;
 
@@ -165,12 +140,21 @@ message SpeechHeader {
   // vt = voice trigger
   string vt = 4;
 
-  // stack of current domains
-  string cdomain = 5;
+  // stack of applications, "app1:app2:app3...."
+  string stack = 5;
 
   // json format
   string device = 6;
 }
+
+message SpeechResponse {
+  string asr              = 1;
+
+  string nlp              = 2;
+
+  string action           = 3;
+}
+
 ```
 
 ### AuthRequest
@@ -182,7 +166,7 @@ message SpeechHeader {
 | key            | string | 开放接口Key,在管理平台获取        | 无，必填 |
 | device_type_id | string | 设备类型ID                 | 无，必填 |
 | device_id      | string | 设备ID                   | 无，必填 |
-| service        | string | asr,nlp,tts            | 无，必填 |
+| service        | string | asr,tts,spch            | 无，必填 |
 | version        | string | 接口版本号                  | 无，必填 |
 | time           | string | unix时间戳                | 无，必填 |
 | sign           | string | 由以上几项+secret按约定的加密方式生成 | 无，必填 |
@@ -232,29 +216,6 @@ RIFF (little-endian) data, WAVE audio, Microsoft PCM, 16 bit, mono 16000 Hz语�
 | ---- | ------ | ---------- |
 | asr  | string | asr实时识别的结果 |
 
-### NlpRequest
-
-请求响应参数详见：[golang代码例子](https://github.com/Rokid/rokid-openvoice/blob/master/sample-code-golang/src/nlpclient/main.go)
-
-| 参数     | 类型        | 描述                     | 默认值  |
-| ------ | --------- | ---------------------- | ---- |
-| header | NlpHeader | 帮助识别voice语音流的NlpHeader | 无    |
-| asr    | string    | 需要识别的asr文本             | 无    |
-
-### NlpHeader
-
-| 参数      | 类型     | 描述                        | 默认值   |
-| ------- | ------ | ------------------------- | ----- |
-| id      | int32  | 唯一标识，用于跟踪一个完整的请求，处理及响应事件。 | 0     |
-| lang    | string | 语音流的语言，目前支持zh-CN，en-US。   | zh-CN |
-| cdomain | string | 设备当前应用对应的domain           | 空     |
-
-### NlpResponse
-
-| 参数   | 类型     | 描述       |
-| ---- | ------ | -------- |
-| nlp  | string | nlp识别的结果 |
-
 ### TtsRequest
 
 请求响应参数详见：[golang代码例子](https://github.com/Rokid/rokid-openvoice/blob/master/sample-code-golang/src/ttsclient/main.go)
@@ -263,7 +224,6 @@ RIFF (little-endian) data, WAVE audio, Microsoft PCM, 16 bit, mono 16000 Hz语�
 | ------ | --------- | -------------------- | ---- |
 | header | TtsHeader | 配置如何将text转换成voice语音流 | 无    |
 | text   | string    | 需要转换的text文本          | 无    |
-
 
 ### TtsHeader
 
@@ -310,7 +270,7 @@ PCM格式为 RIFF (little-endian) data, WAVE audio, Microsoft PCM, 16 bit, mono 
 | lang    | string | 语音流的语言，目前支持zh-CN，en-US。   | zh-CN |
 | codec   | string | 语音流的编码，目前支持PCM，OPU，OPU2。  | PCM   |
 | vt      | string | 激活词，即用于唤醒设备的名字，如"若琪"。     | 空     |
-| cdomain | string | 设备当前的domain信息。            | 空     |
+| stack   | string | 设备当前的应用栈信息。              | 空     |
 | device  | string | 设备上的状态信息，为json结构。         | 空     |
 
 ### SpeechResponse
