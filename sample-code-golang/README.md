@@ -2,6 +2,7 @@
 ```
 git clone git@github.com:Rokid/rokid-openvoice.git
 cd rokid-openvoice/sample-code-golang
+export GOPATH=$PWD
 make
 ```
 
@@ -15,8 +16,10 @@ make
 18     secret         = "PLEASE_FIX_IT"
 ```
 
-
 ### 运行
+
+各测试后加-h或--help可显示出其用法与各命令参数。
+
 ```
 $ ./asrclient -tls -auth -file zhrmghg.pcm
 2017/04/06 20:05:06.634021 main.go:84: Read file(9600)
